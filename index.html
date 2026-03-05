@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cent Trader Indicator - Start Small. Trade Right.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --gold: #FFD700;
+            --gold-light: #FFFACD;
+            --gold-dark: #B8860B;
+            --bg-main: #000000;
+            --bg-card: #1A1A1A;
+            --bg-surface: #242424;
+            --text-main: #FFFFFF;
+            --text-body: #FFFFFF;
+            --text-muted: #EEEEEE;
+            --border: #333333;
+            --red-urgency: #FF0000;
+            --dark-gold: #8A6914;
+            --green-accent: #00C853;
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+            background: #000000;
+            position: relative;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px; opacity: 0.4; pointer-events: none;
+        }
+        .hero-content h1 {
+            font-size: 3.5rem; font-weight: 800; margin-bottom: 10px;
+            background: linear-gradient(to bottom, #FFFFFF 0%, #FFD700 40%, #B8860B 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-transform: uppercase; letter-spacing: 2px;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
+        }
+        .hero-content .tagline { 
+            font-size: 1.5rem; 
+            color: #FFFFFF; 
+            margin-bottom: 30px; 
+            font-weight: 400; 
+            letter-spacing: 1px; 
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        .hero-logo {
+            width: 140px; height: 140px; margin-bottom: 40px; border-radius: 50%; border: 3px solid var(--gold);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
+            animation: coinSpin 6s ease-in-out infinite, floatUp 3s ease-in-out infinite;
+            transform-style: preserve-3d; perspective: 1000px;
+        }
+        @keyframes coinSpin { 0% { transform: rotateY(0deg); } 50% { transform: rotateY(180deg); } 100% { transform: rotateY(360deg); } }
+        @keyframes floatUp { 0% { margin-bottom: 40px; } 50% { margin-bottom: 60px; } 100% { margin-bottom: 40px; } }
+
+        .btn {
+            display: inline-block; padding: 15px 40px; background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #000; text-decoration: none; font-weight: 700; border-radius: 50px; text-transform: uppercase;
+            transition: transform 0.3s, box-shadow 0.3s; margin: 10px; border: none; cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
+        
+        section { padding: 80px 20px; max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 2.2rem; color: var(--gold); margin-bottom: 20px; position: relative; white-space: nowrap; text-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
+        .section-title::after { content: ''; display: block; width: 60px; height: 2px; background: var(--gold); margin: 15px auto 0; box-shadow: 0 0 10px var(--gold); }
+        
+        /* TARGET */
+        .target-audience-section { padding: 60px 20px; max-width: 1000px; margin: 0 auto; }
+        .target-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; align-items: stretch; }
+        .target-card { 
+            background: var(--bg-card);
+            border: 1px solid var(--border); 
+            padding: 30px; 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 20px; 
+            transition: all 0.3s; 
+            height: 100%; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .target-card:hover { transform: translateY(-5px); border-color: var(--gold); background: #222; }
+        
+        .target-icon { 
+            font-size: 2.2rem; 
+            color: var(--gold); 
+            flex-shrink: 0; 
+            filter: drop-shadow(0 0 5px var(--gold)); 
+            line-height: 1; 
+            margin-top: 3px;
+            width: 45px;
+            text-align: center;
+        }
+        
+        .target-content { flex-grow: 1; display: flex; flex-direction: column; }
+        .target-title { color: var(--white); font-size: 1.2rem; font-weight: 700; margin-bottom: 15px; }
+        .target-problems { color: #FFFFFF; font-size: 0.95rem; margin-bottom: 20px; line-height: 1.7; opacity: 0.9; }
+        .target-solution { color: var(--gold-light); font-size: 0.9rem; font-weight: 600; font-style: italic; border-top: 1px solid #444; padding-top: 15px; margin-top: auto; }
+        .subtitle-text { text-align: center; margin-bottom: 50px; color: #FFFFFF; font-size: 1.1rem; opacity: 0.9; }
+
+        /* GALLERY */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .media-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .media-placeholder { width: 100%; height: 250px; background: #2a2a2a; display: flex; align-items: center; justify-content: center; color: var(--gold); flex-direction: column; text-align: center; padding: 20px; }
+        .media-placeholder i { font-size: 3rem; margin-bottom: 10px; }
+        .media-caption { padding: 15px; text-align: center; color: #FFFFFF; font-size: 0.9rem; border-top: 1px solid #444; background: #222; }
+
+        /* SINGLE IMAGE STYLES (Dashboard) */
+        .single-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: #1a1a1a;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        #dashboardCard {
+            border: 1px solid var(--dark-gold);
+            box-shadow: 0 0 15px rgba(138, 105, 20, 0.2);
+        }
+        
+        #dashboardCard .single-image-wrapper {
+            background-color: #0f0f0f;
+        }
+        
+        .single-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: transparent;
+            transition: transform 0.3s ease;
+        }
+        
+        .single-image-wrapper:hover img {
+            transform: scale(1.02);
+        }
+        
+        .single-image-wrapper::after {
+            content: '\f00e';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            color: rgba(255, 215, 0, 0.8);
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        .single-image-wrapper:hover::after {
+            opacity: 1;
+        }
+
+        /* CAROUSEL STYLES */
+        .carousel-card { grid-column: span 1; }
+        
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+
+        #setupCard {
+            border: 1px solid var(--dark-gold);
+            box-shadow: 0 0 15px rgba(138, 105, 20, 0.2);
+        }
+
+        #setupCard .carousel-wrapper { background-color: #000000; }
+        #setupCard .carousel-slide img { background-color: transparent; }
+        #videoCard, #systemCard { border: 1px solid var(--dark-gold); box-shadow: 0 0 15px rgba(138, 105, 20, 0.2); }
+        
+        .carousel-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .carousel-slide {
+            min-width: 100%; height: 100%; cursor: pointer; position: relative;
+        }
+        
+        .carousel-slide img {
+            width: 100%; height: 100%; object-fit: contain; background: #0a0a0a;
+            transition: transform 0.3s ease;
+        }
+        
+        .carousel-slide:hover img { transform: scale(1.02); }
+        
+        .carousel-slide::after {
+            content: '\f00e'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; bottom: 15px; right: 15px;
+            color: rgba(255, 215, 0, 0.8); font-size: 1.2rem; opacity: 0;
+            transition: opacity 0.3s; text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        .carousel-slide:hover::after { opacity: 1; }
+        
+        .carousel-dots {
+            position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 8px; z-index: 10; background: rgba(0, 0, 0, 0.6);
+            padding: 8px 15px; border-radius: 30px; backdrop-filter: blur(5px);
+        }
+        
+        .carousel-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3); cursor: pointer;
+            transition: all 0.3s ease; border: none;
+        }
+        
+        .carousel-dot:hover { background: rgba(255, 215, 0, 0.6); }
+        .carousel-dot.active { background: var(--gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); transform: scale(1.2); }
+        
+        .carousel-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7); border: 1px solid var(--gold); color: var(--gold);
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; z-index: 10;
+            transition: all 0.3s; opacity: 0;
+        }
+        
+        .carousel-wrapper:hover .carousel-nav { opacity: 1; }
+        .carousel-nav:hover { background: var(--gold); color: #000; transform: translateY(-50%) scale(1.1); }
+        .carousel-nav.prev { left: 10px; }
+        .carousel-nav.next { right: 10px; }
+        
+        .slide-counter {
+            position: absolute; top: 12px; right: 12px;
+            background: rgba(0, 0, 0, 0.7); color: var(--gold);
+            padding: 5px 12px; border-radius: 20px;
+            font-size: 0.8rem; font-weight: 600; z-index: 10;
+        }
+
+        /* VIDEO SECTION TABS */
+        .video-tabs {
+            display: flex;
+            border-bottom: 1px solid #444;
+            margin-bottom: 0;
+        }
+
+        .video-tab {
+            flex: 1;
+            padding: 15px;
+            background: #1A1A1A;
+            border: none;
+            color: #888;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .video-tab:hover {
+            color: var(--gold);
+            background: #222;
+        }
+
+        .video-tab.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+            background: #222;
+        }
+
+        /* DIBETULKAN: VIDEO CONTAINER UNTUK CENTERING */
+        .video-container {
+            position: relative;
+            width: 100%;
+            background: #000;
+            min-height: 400px;
+            display: flex;             /* Gunakan Flexbox */
+            justify-content: center;   /* Center secara horizontal */
+            align-items: center;       /* Center secara menegak */
+            flex-direction: column;    /* Susun kandungan menegak */
+        }
+
+        .video-content {
+            display: none;
+            width: 100%;
+        }
+
+        .video-content.active {
+            display: block;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            background: #000;
+        }
+
+        .video-wrapper iframe,
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .blurred-video {
+            filter: blur(20px);
+            pointer-events: none;
+        }
+
+        .video-lock-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+        .lock-content {
+            text-align: center;
+            padding: 40px;
+            max-width: 400px;
+        }
+
+        .lock-content i {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        }
+
+        .lock-content h4 {
+            color: var(--white);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .lock-content p {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .unlock-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .unlock-form input {
+            padding: 12px;
+            background: #222;
+            border: 1px solid #444;
+            color: var(--white);
+            border-radius: 6px;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .unlock-form input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .unlock-form button {
+            padding: 12px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: opacity 0.3s;
+        }
+
+        .unlock-form button:hover {
+            opacity: 0.9;
+        }
+
+        /* FULLSCREEN MODAL */
+        .fullscreen-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000000; z-index: 99999;
+            display: none; align-items: center; justify-content: center; flex-direction: column;
+            transition: background-color 0.3s ease;
+        }
+        
+        .fullscreen-modal.active { display: flex; }
+        
+        .fullscreen-close {
+            position: absolute; top: 20px; right: 30px; font-size: 2.5rem; color: #fff;
+            cursor: pointer; transition: all 0.3s; z-index: 100;
+            width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+            background: rgba(255, 215, 0, 0.1); border: 2px solid var(--gold); border-radius: 50%;
+        }
+        
+        .fullscreen-close:hover { color: var(--gold); transform: rotate(90deg); background: rgba(255, 215, 0, 0.2); }
+        
+        .fullscreen-carousel {
+            width: 90%; max-width: 1200px; height: 70vh; position: relative;
+            display: flex; align-items: center; justify-content: center;
+        }
+        
+        .fullscreen-carousel img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            border-radius: 8px; box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            transition: transform 0.1s ease-out; cursor: zoom-in;
+            user-select: none; -webkit-user-drag: none; z-index: 1;
+        }
+
+        .fullscreen-carousel img.dragging { cursor: grabbing; }
+        .fullscreen-carousel img:not(.dragging) { cursor: grab; }
+
+        /* ZOOM CONTROLS */
+        .zoom-controls {
+            display: flex; gap: 10px; z-index: 10;
+            background: rgba(0, 0, 0, 0.6); padding: 8px 15px; border-radius: 30px;
+            backdrop-filter: blur(5px); border: 1px solid rgba(255, 215, 0, 0.2); margin-top: 20px;
+        }
+
+        .zoom-btn {
+            width: 35px; height: 35px; border-radius: 50%;
+            background: rgba(0,0,0,0.5); border: 1px solid var(--gold); color: var(--gold);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; transition: all 0.3s;
+        }
+
+        .zoom-btn:hover { background: var(--gold); color: #000; }
+        
+        @media (max-width: 768px) {
+            .zoom-controls { display: none; }
+            .fullscreen-carousel img { cursor: grab; }
+            .fullscreen-dots { margin-top: 75px; }
+        }
+        
+        .fullscreen-nav {
+            position: absolute; top: auto; bottom: -70px; transform: translateY(0);
+            background: rgba(0, 0, 0, 0.8); border: 2px solid var(--gold); color: var(--gold);
+            width: 60px; height: 60px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; transition: all 0.3s; z-index: 10;
+        }
+        
+        .fullscreen-nav:hover { background: var(--gold); color: #000; transform: scale(1.1); }
+        .fullscreen-nav.prev { left: 20px; right: auto; }
+        .fullscreen-nav.next { right: 20px; left: auto; }
+        
+        .fullscreen-dots { display: flex; gap: 12px; margin-top: 90px; z-index: 10; position: relative; }
+        
+        .fullscreen-dot {
+            width: 14px; height: 14px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3); cursor: pointer;
+            transition: all 0.3s; border: none;
+        }
+        .fullscreen-dot:hover { background: rgba(255, 215, 0, 0.6); }
+        .fullscreen-dot.active { background: var(--gold); box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); transform: scale(1.3); }
+        
+        .fullscreen-counter {
+            color: var(--gold); font-size: 1.1rem; font-weight: 600;
+            background: rgba(0, 0, 0, 0.5); padding: 8px 20px; border-radius: 30px;
+            margin-top: 15px; z-index: 10; position: relative;
+        }
+
+        /* TESTIMONIALS */
+        .testimonials-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; min-height: 250px; }
+        .testimonial-card { background: var(--bg-card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); transition: all 0.5s ease-in-out; opacity: 1; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .testimonial-card:hover { border-color: var(--gold); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .testimonial-header { display: flex; align-items: center; margin-bottom: 15px; gap: 15px; }
+        .testimonial-avatar { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
+        .author-info { display: flex; flex-direction: column; }
+        .stars { color: var(--gold); margin-bottom: 0; font-size: 0.8rem; }
+        .quote { font-style: italic; margin-bottom: 0; color: #FFFFFF; font-size: 0.95rem; margin-top: 10px; }
+        .author { font-weight: 700; color: var(--white); font-size: 0.95rem; }
+
+        /* QNA */
+        .qna-container { max-width: 800px; margin: 0 auto; }
+        .qna-item { 
+            background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 15px; border-radius: 8px;
+            overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: all 0.3s ease;
+        }
+        .qna-item:hover { transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .qna-question { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: var(--gold); font-size: 1rem; }
+        .qna-question i { transition: transform 0.3s; color: var(--gold); opacity: 1; font-size: 0.9rem; }
+        .qna-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; color: #FFFFFF; font-size: 0.95rem; background: #222; }
+        .qna-item.active .qna-answer { max-height: 500px; padding: 20px; border-top: 1px solid #444; }
+        .qna-item.active .qna-question i { transform: rotate(180deg); }
+
+        /* PRICING SECTION */
+        .pricing-section { padding: 80px 20px; max-width: 100%; margin: 0 auto; background: #050505; position: relative; }
+        
+        .pricing-box { 
+            max-width: 900px; margin: 0 auto; text-align: center; background: #1A1A1A;
+            padding: 60px 40px; border-radius: 24px; border: 2px solid var(--gold);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.2); position: relative;
+        }
+
+        .pricing-box::before {
+            content: ''; position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, transparent 40%, var(--gold), transparent 60%);
+            z-index: -1; border-radius: 25px; animation: borderSpin 10s linear infinite;
+        }
+        @keyframes borderSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .urgency-badge { 
+            background: linear-gradient(135deg, #00C853, #008C34); color: white;
+            padding: 18px 35px; border-radius: 50px; font-weight: 700;
+            display: inline-block; margin-bottom: 30px; text-transform: uppercase;
+            text-align: center; line-height: 1.5; box-shadow: 0 10px 30px rgba(0, 200, 83, 0.4);
+            animation: pulse 2s infinite; position: relative; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .urgency-badge::after {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shineBadge 3s infinite;
+        }
+        @keyframes shineBadge { 0% { left: -100%; } 50%, 100% { left: 100%; } }
+        .urgency-badge .line-1 { font-size: 1.3rem; letter-spacing: 1px; }
+        .urgency-badge .line-2 { font-size: 0.85rem; letter-spacing: 0.5px; margin-top: 5px; }
+        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.5); } 70% { transform: scale(1.02); box-shadow: 0 0 0 15px rgba(0, 200, 83, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 200, 83, 0); } }
+        
+        /* PRICE BOX */
+        .exclusive-price-box { 
+            background: #000000; border: 2px solid rgba(255, 215, 0, 0.4);
+            padding: 40px 20px 30px 20px; border-radius: 20px;
+            margin: 0 auto 30px auto; max-width: 600px;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.2); position: relative;
+            overflow: hidden; min-height: 300px;
+        }
+
+        .price-label { 
+            color: #FFFFFF; font-size: 0.9rem; font-weight: 600;
+            margin-bottom: 20px; text-transform: uppercase; letter-spacing: 3px;
+            position: relative; z-index: 10;
+        }
+
+        .price-stage {
+            position: relative; width: 100%; height: 200px;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .price-old-anim {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); font-size: 3rem; font-weight: 700;
+            color: #AAAAAA; opacity: 0; z-index: 1;
+            animation: animOldPrice 11s ease-in-out infinite; 
+        }
+        
+        .price-old-anim::after {
+            content: ''; position: absolute; left: -10%; width: 0%; top: 50%;
+            height: 4px; background: #00C853;
+            transform: rotate(-5deg); border-radius: 4px;
+            box-shadow: 0 0 15px #00C853;
+            animation: animStrike 11s linear infinite;
+        }
+
+        .price-new-anim {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 9rem; font-weight: 900; color: var(--gold);
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFD700 30%, #FFEC8B 50%, #FFD700 70%, #FFFFFF 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8));
+            opacity: 0; z-index: 2;
+            animation: animNewPrice 11s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+        }
+
+        .price-suffix-anim {
+            position: relative; z-index: 10; display: block;
+            font-size: 2.5rem; font-weight: 900; color: #FFFFFF; letter-spacing: 8px;
+            text-transform: uppercase; margin-top: -20px; opacity: 0;
+            animation: animSuffix 11s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        /* KEYFRAMES */
+        @keyframes animOldPrice {
+            0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            10%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            12%  { transform: translate(calc(-50% + 15px), -50%) scale(1.1); }
+            14%  { transform: translate(calc(-50% - 15px), -50%) scale(0.9); }
+            16%  { transform: translate(calc(-50% + 12px), -50%) scale(1.1); }
+            18%  { transform: translate(calc(-50% - 12px), -50%) scale(0.9); }
+            20%  { transform: translate(calc(-50% + 10px), -50%) scale(1.05); }
+            22%  { transform: translate(calc(-50% - 10px), -50%) scale(0.95); }
+            24%  { transform: translate(calc(-50% + 8px), -50%) scale(1.02); }
+            26%  { transform: translate(calc(-50% - 8px), -50%) scale(0.98); }
+            28%  { transform: translate(calc(-50% + 4px), -50%) scale(1.01); }
+            30%  { transform: translate(calc(-50% - 4px), -50%) scale(0.99); }
+            32%  { transform: translate(-50%, -50%) scale(1); }
+            36%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            45%  { opacity: 0.5; transform: translate(-50%, -50%) translateY(-80px) scale(0.6); }
+            90%  { opacity: 0.5; transform: translate(-50%, -50%) translateY(-80px) scale(0.6); }
+            95%  { opacity: 0; transform: translate(-50%, -50%) translateY(-80px) scale(0.6); }
+            100% { opacity: 0; }
+        }
+        @keyframes animStrike {
+            0%, 20% { width: 0%; opacity: 0; } 
+            36% { width: 0%; opacity: 1; } 
+            45% { width: 120%; opacity: 1; } 
+            90% { width: 120%; opacity: 1; } 
+            95% { opacity: 0; } 
+            100% { width: 0%; opacity: 0; }
+        }
+        @keyframes animNewPrice {
+            0%, 45% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+            55% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+            64% { transform: translate(-50%, -50%) scale(1.0); }
+            90% { opacity: 1; transform: translate(-50%, -50%) scale(1.0); }
+            95% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+            100% { opacity: 0; }
+        }
+        @keyframes animSuffix {
+            0%, 60% { opacity: 0; transform: translateY(20px); }
+            70% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; transform: translateY(0); }
+            95% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 0; }
+        }
+        
+        .urgency-info { 
+            background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 12px;
+            margin-bottom: 20px; border: 1px solid #444;
+        }
+        .urgency-info p { color: #FFFFFF; font-size: 1rem; font-weight: 500; margin-bottom: 10px; }
+
+        /* FEATURE BOX */
+        .feature-box-wrapper { 
+            display: flex; flex-direction: row; align-items: center;
+            background: rgba(255, 255, 255, 0.03); padding: 25px 30px;
+            border-radius: 15px; margin-bottom: 20px; border: 1px solid #333;
+        }
+        
+        .feature-list-side { text-align: left; margin-right: 20px; }
+        .feature-list { list-style: none; text-align: left; margin-bottom: 0; }
+        .feature-list li { 
+            margin-bottom: 18px; display: flex; align-items: center;
+            gap: 15px; font-size: 1.05rem; color: #FFFFFF;
+        }
+        .feature-list i { color: var(--gold); font-size: 1.2rem; width: 20px; text-align: center; }
+        
+        /* COP BULAT */
+        .bonus-circle-badge {
+            width: 170px; height: 170px; min-width: 170px;
+            background: #000000; border: 3px solid var(--gold); border-radius: 50%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            position: relative; animation: badgePulse 3s infinite; flex-shrink: 0;
+            margin: -15px auto 0 40px;
+        }
+        .bonus-circle-badge::before {
+            content: ''; position: absolute;
+            top: 6px; left: 6px; right: 6px; bottom: 6px;
+            border: 1px dashed var(--gold); border-radius: 50%;
+        }
+        .bonus-circle-badge span { display: block; font-weight: 900; color: var(--gold); text-transform: uppercase; line-height: 1.2; }
+        .bonus-circle-badge .txt-top { font-size: 0.95rem; letter-spacing: 1px; }
+        .bonus-circle-badge .txt-mid { font-size: 0.95rem; color: #FFFFFF; margin-top: 5px; }
+        .bonus-circle-badge .txt-bot { font-size: 0.95rem; letter-spacing: 1px; margin-top: 5px; }
+
+        @keyframes badgePulse {
+            0% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); transform: scale(1); }
+            50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.6); transform: scale(1.02); }
+            100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); transform: scale(1); }
+        }
+
+        .renew-badge { 
+            background: #111; border: 1px solid #444;
+            padding: 12px 25px; border-radius: 50px; display: inline-block;
+            margin-top: 25px; color: #FFFFFF; font-size: 0.9rem; font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .renew-badge span { color: var(--gold); font-weight: 800; }
+        
+        .bonus-highlight { 
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0,0,0, 0.8));
+            border: 2px solid var(--gold); padding: 30px; border-radius: 15px;
+            margin-top: 30px; text-align: center;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.1); position: relative;
+        }
+        
+        .btn-cta { 
+            font-size: 1.4rem; padding: 22px 70px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            color: #000; text-decoration: none; font-weight: 800; border-radius: 60px;
+            display: inline-block; margin-top: 30px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+            animation: cta-glow 2s infinite; transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase; cursor: pointer; border: 2px solid #FFFACD;
+        }
+        .btn-cta:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6); }
+        @keyframes cta-glow { 0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); } 50% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.8); } 100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); } }
+
+        /* OTHER SECTIONS */
+        .trial-section { padding: 80px 20px; max-width: 100%; background: #000000; }
+        .trial-box { max-width: 900px; margin: 0 auto; text-align: center; background: var(--bg-card); padding: 60px 40px; border-radius: 15px; border: 2px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .copytrade-section { padding: 80px 20px; max-width: 100%; background: #000000; }
+        .copytrade-box { max-width: 900px; margin: 0 auto; text-align: center; background: var(--bg-card); padding: 60px 40px; border-radius: 15px; border: 2px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .best-badge { display: inline-block; background: var(--gold); color: #000; padding: 5px 15px; border-radius: 20px; font-weight: 800; font-size: 0.8rem; margin-bottom: 15px; letter-spacing: 1px; }
+        .copytrade-icons { display: flex; justify-content: center; gap: 30px; margin: 40px 0; flex-wrap: wrap; }
+        .ct-icon-item { text-align: center; max-width: 200px; }
+        .ct-icon-circle { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 2rem; color: var(--gold); background: #222; }
+        .ct-icon-item h4 { color: var(--white); font-size: 1rem; margin-bottom: 5px; }
+        .ct-icon-item p { color: #FFFFFF; font-size: 0.8rem; white-space: nowrap; opacity: 0.9; }
+        .copytrade-explain { background: #222; padding: 30px; border-radius: 15px; border: 1px solid #444; margin-top: 30px; text-align: left; }
+        .copytrade-explain h3 { color: var(--gold); margin-bottom: 15px; text-align: center; }
+
+        /* FOOTER */
+        footer { background: #000000; padding: 60px 20px; text-align: center; border-top: 1px solid #222; }
+        .logo-footer-img { height: 50px; width: 50px; object-fit: cover; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 10px; opacity: 1; }
+        .disclaimer-text { margin-top: 40px; padding-top: 20px; border-top: 1px solid #222; color: #888; font-size: 0.75rem; line-height: 1.6; max-width: 900px; margin-left: auto; margin-right: auto; text-align: center; }
+
+        /* MODAL STYLES */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.98); z-index: 9999;
+            display: none; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-content {
+            background: #1A1A1A; border: 1px solid #444;
+            padding: 40px 30px; border-radius: 20px; max-width: 550px; width: 100%;
+            text-align: center; position: relative; box-shadow: 0 0 60px rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease; max-height: 90vh; overflow-y: auto;
+        }
+        .close-modal { position: absolute; top: 15px; right: 25px; font-size: 2rem; color: #888; cursor: pointer; transition: color 0.2s; z-index: 10; }
+        .close-modal:hover { color: var(--white); }
+        
+        .modal-icon {
+            font-size: 3.5rem; color: var(--gold); margin-bottom: 15px;
+            display: flex; justify-content: center; align-items: center; height: 80px; 
+        }
+        .gear-icon { color: var(--gold); text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+        .gear-1 { font-size: 3.5rem; animation: spin 4s linear infinite; margin-right: -10px; }
+        .gear-2 { font-size: 2.5rem; animation: spin-reverse 3s linear infinite; margin-top: 20px; opacity: 0.7; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+
+        .modal-content h3 { color: var(--white); font-size: 1.5rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .modal-content p { color: #FFFFFF; font-size: 0.9rem; margin-bottom: 10px; line-height: 1.6; opacity: 0.9; }
+        .maintenance-divider { width: 60px; height: 2px; background: #444; margin: 15px auto; }
+
+        .manual-form { text-align: left; margin-top: 15px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; color: var(--gold); font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; }
+        .form-input { width: 100%; padding: 12px; background: #000; border: 1px solid #444; color: var(--white); border-radius: 6px; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; transition: border-color 0.3s; }
+        .form-input:focus { outline: none; border-color: var(--gold); }
+        .form-input:invalid { border-color: #ff4d4d; }
+        .form-textarea { width: 100%; padding: 10px 12px; background: #000; border: 1px solid #444; color: var(--white); border-radius: 6px; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; min-height: 80px; resize: vertical; }
+        .form-textarea:focus { outline: none; border-color: var(--gold); }
+        .form-select { width: 100%; padding: 12px; background: #000; border: 1px solid #444; color: var(--white); border-radius: 6px; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; cursor: pointer; }
+        .form-select option { background: #1A1A1A; color: var(--white); }
+        .error-msg { color: #ff4d4d; font-size: 0.75rem; margin-top: 3px; display: none; }
+
+        .highlight-msg { margin-top: 10px; padding: 10px 15px; border-radius: 8px; font-size: 0.85rem; line-height: 1.4; display: none; animation: fadeIn 0.3s ease; }
+        .highlight-msg.active { display: block; }
+        .highlight-msg.bonus { background: rgba(255, 215, 0, 0.1); border: 1px dashed var(--gold); color: var(--gold-light); }
+        .highlight-msg.info { background: rgba(255, 255, 255, 0.05); border: 1px solid #555; color: #FFFFFF; }
+
+        .btn-submit {
+            width: 100%; padding: 12px; background: #333; color: #888; border: none;
+            border-radius: 50px; font-family: 'Montserrat', sans-serif; font-weight: 700;
+            font-size: 0.95rem; text-transform: uppercase; cursor: not-allowed;
+            transition: all 0.3s; margin-top: 8px; text-decoration: none;
+            display: block; text-align: center;
+            pointer-events: none; 
+        }
+        .btn-submit.active {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            color: #000; cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            pointer-events: auto; 
+        }
+        .btn-submit.active:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
+
+        .step-container { display: none; animation: fadeIn 0.4s ease; }
+        .step-container.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        
+        .success-box { text-align: center; padding: 20px 0; }
+        .success-icon { font-size: 4rem; color: #4CAF50; margin-bottom: 20px; }
+        .success-title { font-size: 1.5rem; color: var(--white); margin-bottom: 15px; font-weight: 700; }
+        .success-text { color: #FFFFFF; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
+        
+        .next-steps {
+            background: rgba(255, 215, 0, 0.05); border: 1px solid var(--gold);
+            padding: 20px; border-radius: 10px; text-align: left; margin-top: 20px;
+        }
+        .next-steps h4 { color: var(--gold); margin-bottom: 10px; text-align: center; }
+        .next-steps ul { list-style: none; padding: 0; }
+        .next-steps li {
+            color: #FFFFFF; margin-bottom: 8px;
+            display: flex; align-items: flex-start;
+            gap: 10px;
+        }
+        .next-steps li i { color: var(--gold); margin-top: 3px; }
+
+        .step-box { background: #222; border: 1px solid #444; padding: 20px; border-radius: 10px; margin-bottom: 15px; text-align: center; }
+        .step-number { display: inline-block; width: 25px; height: 25px; background: var(--gold); color: #000; border-radius: 50%; font-weight: 800; line-height: 25px; margin-bottom: 10px; }
+        .btn-subscribe { display: inline-block; padding: 12px 30px; background: #0077b5; color: white; border-radius: 50px; text-decoration: none; font-weight: 700; margin-top: 10px; transition: background 0.3s; }
+        .btn-subscribe:hover { background: #00588a; }
+        .countdown-text { font-size: 0.9rem; color: var(--gold); margin-top: 15px; font-weight: 700; text-align: center; }
+        
+        /* CONTACT ADMIN BOX */
+        .contact-admin-box {
+            max-width: 800px; margin: 15px auto; padding: 20px;
+            text-align: center; background: var(--bg-card); border-radius: 8px;
+            border: 1px solid #333; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+        .contact-admin-box:hover { transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .contact-title { color: var(--gold); font-size: 1.1rem; margin-bottom: 5px; font-weight: 600; }
+        .contact-text { color: #FFFFFF; margin-bottom: 15px; font-size: 0.95rem; }
+        .contact-btn-wrapper { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+        .contact-btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; max-width: 280px; padding: 10px 20px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            color: #000; text-decoration: none; font-weight: 700; font-size: 0.9rem;
+            border-radius: 50px; transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2); border: 1px solid var(--gold-light);
+            cursor: pointer; border: none;
+        }
+        .contact-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4); }
+        .contact-btn i { font-size: 1.1rem; margin-right: 5px; }
+        .contact-tagline {
+            color: #AAAAAA;
+            font-size: 0.8rem;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        /* SOCIAL PROOF POPUP STYLES */
+        #socialProofContainer {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .social-proof-popup {
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            max-width: 320px;
+            animation: slideInProof 0.5s ease forwards, fadeOutProof 0.5s ease 4.5s forwards;
+            pointer-events: auto;
+            transform-origin: bottom left;
+        }
+
+        .social-proof-popup.hiding {
+            animation: fadeOutProof 0.5s ease forwards;
+        }
+
+        @keyframes slideInProof {
+            from {
+                opacity: 0;
+                transform: translateX(-100%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @keyframes fadeOutProof {
+            to {
+                opacity: 0;
+                transform: translateY(20px) scale(0.9);
+            }
+        }
+
+        .spp-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .spp-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .spp-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.7rem;
+            color: #aaa;
+            margin-bottom: 2px;
+        }
+        
+        .spp-header i {
+            color: var(--gold);
+            font-size: 0.65rem;
+        }
+
+        .spp-main {
+            font-size: 0.85rem;
+            color: #fff;
+            line-height: 1.3;
+        }
+
+        .spp-main strong {
+            color: var(--gold-light);
+        }
+
+        @media (max-width: 480px) {
+            #socialProofContainer {
+                left: 10px;
+                bottom: 10px;
+                right: 10px;
+            }
+            .social-proof-popup {
+                max-width: 100%;
+            }
+        }
+
+        /* LOADING OVERLAY STYLES */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #loadingOverlay.active {
+            display: flex;
+        }
+
+        .loader-box {
+            background: #1A1A1A;
+            padding: 40px 60px;
+            border-radius: 20px;
+            border: 2px solid var(--gold);
+            text-align: center;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 215, 0, 0.2);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            margin: 0 auto 25px auto;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-text {
+            color: var(--gold);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .loader-sub {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        /* MOBILE RESPONSIVE CSS */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2rem; line-height: 1.2; }
+            .hero-content .tagline { font-size: 1rem; }
+            .hero-logo { width: 100px; height: 100px; }
+            .section-title { font-size: 1.5rem; white-space: normal; }
+            .subtitle-text { font-size: 0.9rem; }
+
+            .target-grid { grid-template-columns: 1fr; }
+            .target-card { padding: 20px; }
+            .target-title { font-size: 1rem; }
+            .target-problems { font-size: 0.85rem; }
+
+            .testimonials-container { grid-template-columns: 1fr; min-height: auto; }
+            .testimonial-card { padding: 20px; }
+
+            .gallery-grid { grid-template-columns: 1fr; }
+            .media-card { grid-column: span 1 !important; }
+            .media-placeholder { height: 200px; }
+            
+            .single-image-wrapper, .carousel-wrapper { height: 220px; }
+            .carousel-nav { width: 35px; height: 35px; opacity: 1; }
+            .carousel-dots { padding: 6px 12px; gap: 6px; }
+            .carousel-dot { width: 8px; height: 8px; }
+
+            .qna-question { padding: 15px; font-size: 0.9rem; }
+            .qna-answer { font-size: 0.85rem; }
+
+            .pricing-box { padding: 30px 15px; }
+            .exclusive-price-box { padding: 20px 10px; min-height: 250px; }
+            .price-label { font-size: 0.7rem; letter-spacing: 1px; }
+            .price-stage { height: 150px; }
+            .price-old-anim { font-size: 2rem; }
+            .price-new-anim { font-size: 5rem; }
+            .price-suffix-anim { font-size: 1.5rem; margin-top: -10px; }
+            .urgency-badge { padding: 12px 20px; }
+            .urgency-badge .line-1 { font-size: 1rem; }
+            .urgency-badge .line-2 { font-size: 0.75rem; }
+            
+            .feature-box-wrapper { flex-direction: column; text-align: center; padding: 20px; }
+            .feature-list-side { margin-right: 0; width: 100%; order: 2; margin-bottom: 0; }
+            .bonus-circle-badge { margin: 0 auto; width: 140px; height: 140px; min-width: 140px; margin-bottom: 30px; order: 1; }
+
+            .btn-cta { font-size: 1rem; padding: 15px 30px; width: 100%; }
+            .renew-badge { font-size: 0.8rem; padding: 10px 15px; }
+
+            .trial-box, .copytrade-box { padding: 30px 20px; }
+            .copytrade-explain { padding: 20px; }
+
+            .contact-admin-box { padding: 15px; }
+            .contact-title { font-size: 1rem; }
+            .contact-text { font-size: 0.85rem; }
+
+            .modal-content { padding: 20px; }
+            
+            .fullscreen-nav { width: 45px; height: 45px; font-size: 1.2rem; bottom: -60px; }
+            .fullscreen-nav.prev { left: 5px; }
+            .fullscreen-nav.next { right: 5px; }
+            .fullscreen-dots { margin-top: 75px; }
+            .fullscreen-close { top: 10px; right: 15px; font-size: 1.8rem; width: 40px; height: 40px; }
+
+            .loader-box { padding: 30px 40px; }
+            .loader-text { font-size: 1rem; }
+
+            .video-tab {
+                padding: 12px 5px;
+                font-size: 0.75rem;
+            }
+
+            .video-container {
+                min-height: 300px;
+            }
+            .lock-content {
+                padding: 20px;
+            }
+            .lock-content h4 { font-size: 1.2rem; }
+        }
+
+        /* DITAMBAH: HALANG COPY IMAGE URL & SAVE IMAGE */
+        img {
+            pointer-events: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        }
+
+        #fullscreenImage {
+            pointer-events: auto !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO SECTION -->
+    <div class="hero">
+        <div class="hero-content">
+            <img src="https://res.cloudinary.com/dvsx7weto/image/upload/v1772694625/LOGO_yki8wd.jpg" alt="Cent Trader Logo" class="hero-logo">
+            <h1>Cent Trader Indicator</h1>
+            <p class="tagline">Start Small. Trade Right.</p>
+        </div>
+    </div>
+
+    <!-- SIAPA PERLU SECTION -->
+    <section class="target-audience-section">
+        <h2 class="section-title">Cent Trader Indicator Ni Untuk Siapa Sebenarnya?</h2>
+        <p class="subtitle-text">Kalau anda selalu rasa macam ni masa trading, baca betul-betul. Mungkin ini penyelesaiannya.</p>
+        
+        <div class="target-grid">
+            <div class="target-card">
+                <div class="target-icon"><i class="fas fa-crosshairs"></i></div>
+                <div class="target-content">
+                    <h4 class="target-title">Tak Tahu Bila Nak Entry</h4>
+                    <div class="target-problems">Masuk awal takut fakeout.<br>Masuk lambat terlepas peluang.<br>Pening nak tunggu confirmation.</div>
+                    <div class="target-solution">Cent Trader Indicator bagi signal BUY/SELL yang jelas. Anda cuma ikut setup yang dah disahkan.</div>
+                </div>
+            </div>
+            <div class="target-card">
+                <div class="target-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="target-content">
+                    <h4 class="target-title">MC Jadi "Kawan Rapat"</h4>
+                    <div class="target-problems">Trade ikut nafsu.<br>Tak ada plan exit.<br>Modal hangus sekelip mata.</div>
+                    <div class="target-solution">Risk management dah disediakan. Cut loss dan take profit jelas, bukan agak-agak.</div>
+                </div>
+            </div>
+            <div class="target-card">
+                <div class="target-icon"><i class="fas fa-heartbeat"></i></div>
+                <div class="target-content">
+                    <h4 class="target-title">Takut Salah Entry</h4>
+                    <div class="target-problems">Tengok chart lama sangat.<br>Tangan teragak-agas nak tekan.<br>Akhirnya peluang terlepas.</div>
+                    <div class="target-solution">Signal dah confirm, tinggal ikut sahaja. Trade jadi lebih yakin.</div>
+                </div>
+            </div>
+            <div class="target-card">
+                <div class="target-icon"><i class="fas fa-layer-group"></i></div>
+                <div class="target-content">
+                    <h4 class="target-title">Floating Tak Terkawal</h4>
+                    <div class="target-problems">Tambah lot tapi salah tempat.<br>Margin makin nipis.<br>Tidur pun tak lena.</div>
+                    <div class="target-solution">Indicator tunjuk kawasan layering yang lebih optimum supaya entry lebih tersusun.</div>
+                </div>
+            </div>
+            <div class="target-card">
+                <div class="target-icon"><i class="fas fa-clipboard-list"></i></div>
+                <div class="target-content">
+                    <h4 class="target-title">Trade Ikut Nasib</h4>
+                    <div class="target-problems">Hari ini profit, esok rugi.<br>Teknik asyik tukar.<br>Result tak konsisten.</div>
+                    <div class="target-solution">SOP step-by-step dah tersedia. Ikut sistem, jadi lebih disiplin.</div>
+                </div>
+            </div>
+            <div class="target-card">
+                <div class="target-icon"><i class="fas fa-brain"></i></div>
+                <div class="target-content">
+                    <h4 class="target-title">Chart Penuh Sesak</h4>
+                    <div class="target-problems">Indicator bertimbun.<br>Signal bercanggah.<br>Pening nak analisa sendiri.</div>
+                    <div class="target-solution">Cent Trader Indicator simple dan clean. Hanya signal penting sahaja dipaparkan.</div>
+                </div>
+            </div>
+        </div>
+        <p class="subtitle-text" style="margin-top: 50px; margin-bottom: 0;">Kalau anda nampak diri anda dalam salah satu situasi di atas. Mungkin sudah sampai masa untuk trade dengan sistem, bukan dengan emosi.</p>
+    </section>
+
+    <!-- INTERFACE & SETUP SECTION -->
+    <section id="features">
+        <h2 class="section-title">Premium Interface & Setup</h2>
+        <p style="text-align: center; margin-bottom: 40px; color: #FFFFFF;">Design kemas dan simple, fokus pada apa yang penting. Paparan profesional membantu anda buat keputusan trade jadi lebih pantas.</p>
+        
+        <div class="gallery-grid">
+            <!-- PROFESSIONAL DASHBOARD CARD -->
+            <div class="media-card" id="dashboardCard">
+                <div class="single-image-wrapper" onclick="openViewer(dashboardImages, 0)">
+                    <img src="https://res.cloudinary.com/dvsx7weto/image/upload/v1772694609/FULL_INTERFACE_xpjbri.png" alt="Professional Dashboard">
+                </div>
+                <div class="media-caption">Professional Dashboard</div>
+            </div>
+            
+            <!-- SETUP ENTRY CAROUSEL CARD -->
+            <div class="media-card carousel-card" id="setupCard">
+                <div class="carousel-wrapper" id="mainCarousel">
+                    <div class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">10</span></div>
+                    <div class="carousel-track" id="carouselTrack"></div>
+                    <button class="carousel-nav prev" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-nav next" onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
+                    <div class="carousel-dots" id="carouselDots"></div>
+                </div>
+                <div class="media-caption">Clear Setup (Before & After)</div>
+            </div>
+            
+            <!-- FULL VIDEO TUTORIAL CARD WITH TABS -->
+            <div class="media-card" id="videoCard" style="grid-column: span 2;">
+                <div class="video-tabs">
+                    <button class="video-tab active" onclick="switchVideoTab('free')">Free Trial Video</button>
+                    <button class="video-tab" onclick="switchVideoTab('full')">Full Tutorial (Paid)</button>
+                </div>
+                
+                <div class="video-container">
+                    <!-- Free Video -->
+                    <div id="freeVideoContent" class="video-content active">
+                        <div class="video-wrapper">
+                            <video controls>
+                                <source src="https://www.dropbox.com/scl/fi/0k9ecaghn16a5djc4o80k/grok-video-e9d64af4-ff4f-453c-8742-84b3bd77a470-1.mp4?rlkey=fwxslawdu4fxx8iwo2xhp3aaj&st=wj8ccacs&raw=1" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+
+                    <!-- Full Video (Locked) -->
+                    <div id="fullVideoContent" class="video-content">
+                        <div class="video-wrapper blurred-video">
+                            <video id="paidVideoPlayer" controls>
+                                <source src="https://www.dropbox.com/scl/fi/naymjgtjyqcks7v1qd35l/grok-video-e9d64af4-ff4f-453c-8742-84b3bd77a470.mp4?rlkey=xbfo4npu5g59ifakvxbzoh66u&st=h6d4iyjy&raw=1" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+
+                        <!-- Lock Overlay -->
+                        <div class="video-lock-overlay" id="videoLock">
+                            <div class="lock-content">
+                                <i class="fas fa-lock"></i>
+                                <h4>Premium Content</h4>
+                                <p>Masukkan kod rahsia yang diberikan selepas pembelian untuk buka kunci.</p>
+                                <div class="unlock-form">
+                                    <input type="text" id="secretCodeInput" placeholder="Masukkan Kod Rahsia">
+                                    <button onclick="unlockVideo()">Unlock</button>
+                                </div>
+                                <p class="error-text" id="codeError" style="display:none; color:#ff4d4d; font-size:0.8rem; margin-top:10px;">Kod salah. Sila semak resit atau hubungi admin.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="media-caption">Full Video Tutorial</div>
+            </div>
+        </div>
+
+        <!-- SYSTEM CARD -->
+        <div class="media-card" id="systemCard" style="padding: 40px 30px; text-align: center; margin-top: 40px;">
+            <p style="color: #FFFFFF; font-size: 0.95rem; line-height: 1.8; margin-bottom: 20px;">
+                Kami dah sediakan sistemnya.<br>Kami dah bagi contoh before & after.<br>Kami dah sediakan panduan video lengkap cara penggunaan indicator.
+            </p>
+            <p style="color: #FFFFFF; font-size: 0.95rem; line-height: 1.8; margin-bottom: 20px;">
+                Semua ini dikumpulkan dalam satu platform yang tersusun dan mudah difahami.<br>
+                Anda boleh lihat sendiri paparan dashboard indicator, contoh setup entry beserta hasilnya, serta terus belajar melalui video tutorial step-by-step yang disediakan.
+            </p>
+            <p style="color: var(--gold-light); font-size: 1rem; font-weight: 600; line-height: 1.6; margin-bottom: 20px;">
+                Anda tak perlu jadi pakar analisa.<br>Anda hanya perlu ikut sistem dan disiplin jalankan SOP.
+            </p>
+            <p style="color: var(--white); font-size: 1rem; font-weight: 700; line-height: 1.6; margin-bottom: 0;">
+                Semua bekalan sudah tersedia.<br>Tinggal anda practise dan execute.
+            </p>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <h2 class="section-title">Apa Kata Mereka?</h2>
+        <div class="testimonials-container" id="testimonialGrid"></div>
+    </section>
+
+    <!-- QNA SECTION -->
+    <section id="qna">
+        <h2 class="section-title">Soalan Lazim (FAQ)</h2>
+        <div class="qna-container">
+            <div class="qna-item active">
+                <div class="qna-question"><span>1. Apa itu Cent Trader Indicator?</span><i class="fas fa-chevron-down"></i></div>
+                <div class="qna-answer">Cent Trader Indicator ialah custom indicator yang direka khusus untuk GOLD (XAUUSD). Ia membantu trader mengenal pasti entry buy/sell dengan signal yang jelas, jadi anda tak perlu pening-pening buat analisa sendiri.</div>
+            </div>
+            <div class="qna-item">
+                <div class="qna-question"><span>2. Untuk pair apa indicator ini sesuai?</span><i class="fas fa-chevron-down"></i></div>
+                <div class="qna-answer">Indicator ini hanya direka khas untuk GOLD (XAUUSD). Ia dibina khusus untuk trader yang fokus pada pasaran emas sahaja, jadi signal dan analisa adalah optimum untuk XAUUSD.</div>
+            </div>
+            <div class="qna-item">
+                <div class="qna-question"><span>3. Siapa yang sesuai gunakan Cent Trader Indicator?</span><i class="fas fa-chevron-down"></i></div>
+                <div class="qna-answer">Indicator ini sesuai untuk semua jenis trader yang sudah mempunyai asas trading. Signal buy/sell diberikan dengan jelas, memudahkan trader membuat keputusan tanpa perlu analisa rumit.</div>
+            </div>
+            <div class="qna-item">
+                <div class="qna-question"><span>4. Platform apa yang disokong?</span><i class="fas fa-chevron-down"></i></div>
+                <div class="qna-answer">Cent Trader Indicator hanya boleh diakses di TradingView, dan semua analisa dilakukan di situ. Entry trade pula boleh dibuat di MetaTrader 4 (MT4) atau MetaTrader 5 (MT5) mengikut keselesaan anda.</div>
+            </div>
+            <div class="qna-item">
+                <div class="qna-question"><span>5. Adakah ada percubaan percuma?</span><i class="fas fa-chevron-down"></i></div>
+                <div class="qna-answer">Ada! Kami menawarkan akses percuma selama 7 hari penuh. Anda boleh cuba sendiri, pastikan sesuai dengan gaya trading anda, barulah buat keputusan untuk membeli.</div>
+            </div>
+            <div class="qna-item">
+                <div class="qna-question"><span>6. Bila saya akan dapat akses?</span><i class="fas fa-chevron-down"></i></div>
+                <div class="qna-answer">Cepat! Hanya PM admin di Telegram dan ikut langkah-langkah yang diberikan. Akses anda akan dihantar dalam masa 5–30 minit selepas semuanya disahkan.</div>
+            </div>
+            <div class="qna-item">
+                <div class="qna-question"><span>7. Berapa modal minimum untuk mula guna?</span><i class="fas fa-chevron-down"></i></div>
+                <div class="qna-answer">Modal sepenuhnya bergantung pada kemampuan anda sendiri – tiada had minimum atau maksimum. Untuk trading yang lebih selamat, anda boleh mula dengan cent account, manakala untuk potensi keuntungan lebih besar, anda boleh guna standard account mengikut risiko dan strategi anda sendiri.</div>
+            </div>
+            <div class="qna-item">
+                <div class="qna-question"><span>8. Adakah indicator ini 'repaint'?</span><i class="fas fa-chevron-down"></i></div>
+                <div class="qna-answer">Tak. Kami benci repaint sama macam anda. Signal yang keluar tu final, dia tak akan bertukar-tukar atau hilang selepas candle close.</div>
+            </div>
+            <div class="qna-item">
+                <div class="qna-question"><span>9. Bagaimana saya boleh belajar guna Cent Trader Indicator?</span><i class="fas fa-chevron-down"></i></div>
+                <div class="qna-answer">Jangan risau! Video tutorial lengkap telah disediakan di website. Anda hanya perlu tonton dan fahamkan cara penggunaan indicator – mudah diikuti walaupun baru pertama kali guna.</div>
+            </div>
+            <div class="qna-item">
+                <div class="qna-question"><span>10. Berapa banyak setup trade dalam sehari?</span><i class="fas fa-chevron-down"></i></div>
+                <div class="qna-answer">Setup untuk trade lebih dari 10 kali sehari. Anda cuma perlu pasang alert dan tunggu signal masuk, atau ikut alert yang dihantar terus melalui Telegram. Mudah, cepat, dan sesuai untuk trader yang nak trade GOLD tanpa pening kepala buat analisa sendiri.</div>
+            </div>
+            <div class="qna-item">
+                <div class="qna-question"><span>11. Bagaimana jika saya ada masalah teknikal?</span><i class="fas fa-chevron-down"></i></div>
+                <div class="qna-answer">Jangan risau! Admin kami sentiasa sedia membantu di Telegram. Anda boleh terus mesej admin jika menghadapi sebarang masalah semasa install atau setup.</div>
+            </div>
+        </div>
+
+        <!-- CONTACT ADMIN BOX -->
+        <div class="contact-admin-box">
+            <h3 class="contact-title">Ada Soalan?</h3>
+            <p class="contact-text">Jangan segan untuk bertanya! Hubungi admin kami terus di Telegram untuk bantuan segera.</p>
+            <div class="contact-btn-wrapper">
+                <button class="contact-btn" onclick="triggerLoading('redirect', 'https://t.me/minzran')">
+                    <i class="fab fa-telegram"></i>
+                    Official Admin Cent Trader
+                </button>
+                <p class="contact-tagline">Online 24 Hours / 7 Days</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section class="pricing-section" id="pricing">
+        <div class="pricing-box">
+            <div class="urgency-badge">
+                <div class="line-1"><i class="fas fa-bolt"></i> LIMITED OFFER <i class="fas fa-bolt"></i></div>
+                <div class="line-2">HANYA UNTUK YANG TERAWAL SAHAJA!</div>
+            </div>
+            
+            <h2 style="text-align: center; font-size: 2.2rem; color: var(--gold); font-weight: 800; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px;">PELUANG TERHAD!</h2>
+            
+            <div class="exclusive-price-box">
+                <p class="price-label">Harga Eksklusif Pelancaran</p>
+                
+                <div class="price-stage">
+                    <span class="price-old-anim">RM599</span>
+                    <span class="price-new-anim">RM119</span>
+                </div>
+                
+                <span class="price-suffix-anim">SAHAJA!</span>
+            </div>
+
+            <div class="urgency-info">
+                <p>Selepas ini harga akan kembali ke <span style="color: #00C853; font-weight: 700;">RM599</span></p>
+                <p>Dapatkan Cent Trader Indicator Sekarang!</p>
+            </div>
+
+            <!-- FEATURE BOX -->
+            <div class="feature-box-wrapper">
+                <div class="feature-list-side">
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle"></i> Full Access Cent Trader Indicator</li>
+                        <li><i class="fas fa-check-circle"></i> Full Access 30 Days</li>
+                        <li><i class="fas fa-check-circle"></i> Full Alert Notifications via Telegram</li>
+                        <li><i class="fas fa-check-circle"></i> Full Support & Installation Tutorial</li>
+                        <li><i class="fas fa-check-circle"></i> Full Access Tutorial Video</li>
+                    </ul>
+                    <div class="renew-badge"><i class="fas fa-sync-alt"></i> Renew bulan seterusnya cuma <span>RM20</span> sahaja!</div>
+                </div>
+
+                <div class="bonus-circle-badge">
+                    <span class="txt-top">INILAH</span>
+                    <span class="txt-mid">YANG ANDA</span>
+                    <span class="txt-bot">DAPAT!</span>
+                </div>
+            </div>
+            
+            <div class="bonus-highlight">
+                <p style="color: var(--gold-light); font-size: 1.1rem; font-weight: 700; margin-bottom: 5px;"><i class="fas fa-crown"></i> BONUS UTAMA</p>
+                <p style="color: var(--white); font-size: 1.2rem; font-weight: 700;">PERCUMA Service Copytrade</p>
+                <p style="color: #FFFFFF; font-size: 0.9rem; font-style: italic;">Eksklusif Untuk Yang Terawal</p>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button class="btn-cta" onclick="triggerLoading('modal', 'purchaseModal')">Dapatkan Access Sekarang <i class="fas fa-arrow-right"></i></button>
+                <p style="color: #AAAAAA; font-size: 0.9rem; margin-top: 15px; font-style: italic;">Jangan Lepaskan Peluang Ini</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FREE TRIAL SECTION -->
+    <section class="trial-section">
+        <div class="trial-box">
+            <h3 style="color: var(--white); margin-bottom: 15px; font-size: 2rem;">Masih Tak Yakin?</h3>
+            <p style="margin-bottom: 20px; color: #FFFFFF;">Tak perlu keluar duit dulu. Cuba <strong style="color:var(--gold)">7 HARI PERCUMA</strong> dan rasakan sendiri bagaimana indicator ni membantu trading anda.</p>
+            <button class="btn-cta" onclick="triggerLoading('modal', 'trialModal')">START FREE 7 DAYS ACCESS <i class="fas fa-arrow-right"></i></button>
+            <p style="color: #AAAAAA; font-size: 0.9rem; margin-top: 15px; font-style: italic;">Eksklusif Sempena Pelancaran</p>
+        </div>
+    </section>
+
+    <!-- COPYTRADE SECTION -->
+    <section class="copytrade-section" id="copytrade">
+        <div class="copytrade-box">
+            <span class="best-badge">BONUS TERBAIK</span>
+            <h2 class="section-title">Apa Paling Best Bila Beli Indicator Ni?</h2>
+            <p style="font-size: 1.2rem; color: #FFFFFF; margin-bottom: 30px;">
+                Anda bukan sahaja dapat indicator, tapi anda akan dapat akses <br><span style="color:var(--gold); font-weight:700;">PERCUMA Service Copytrade!</span>
+            </p>
+
+            <div class="copytrade-icons">
+                <div class="ct-icon-item">
+                    <div class="ct-icon-circle"><i class="fas fa-robot"></i></div>
+                    <h4>Auto Copy</h4><p>Trade salin automatik</p>
+                </div>
+                <div class="ct-icon-item">
+                    <div class="ct-icon-circle"><i class="fas fa-user-tie"></i></div>
+                    <h4>Expert Trader</h4><p>Ikut trade pro</p>
+                </div>
+                <div class="ct-icon-item">
+                    <div class="ct-icon-circle"><i class="fas fa-clock"></i></div>
+                    <h4>Jimat Masa</h4><p>Tak perlu hadap chart 24j</p>
+                </div>
+            </div>
+
+            <div class="copytrade-explain">
+                <h3><i class="fas fa-question-circle"></i> Apa Itu Copytrade?</h3>
+                <p style="margin-bottom: 15px; color: #FFFFFF;">Copytrade adalah servis di mana akaun trading anda akan <strong>menyalin setiap trade</strong> yang dibuat oleh akaun Master kami secara <strong>AUTOMATIK</strong>.</p>
+                <p style="margin-bottom: 15px; color: #FFFFFF;">Maksudnya, walaupun anda tidur, bekerja, atau sibuk dengan keluarga, akaun anda masih boleh profit mengikut prestasi master trader kami.</p>
+                <p style="color: var(--gold); font-weight: 700;"><i class="fas fa-check-circle"></i> Jadi, tak reti analyze chart? Takpe, biar kami trade untuk anda!</p>
+            </div>
+
+            <button class="btn-cta" onclick="triggerLoading('modal', 'purchaseModal')">Nak Free Service Copytrade <i class="fas fa-arrow-right"></i></button>
+            <p style="color: #AAAAAA; font-size: 0.9rem; margin-top: 15px; font-style: italic;">Eksklusif Untuk Pembeli Yang Terawal Sahaja!</p>
+            <p style="color: #777; font-size: 0.75rem; margin-top: 15px; line-height: 1.5; font-style: italic;">
+                Copytrade melibatkan risiko tinggi. Prestasi lepas tidak menjamin hasil masa depan. Sila fahami risiko terlebih dahulu.
+            </p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <img src="https://res.cloudinary.com/dvsx7weto/image/upload/v1772694625/LOGO_yki8wd.jpg" alt="Logo" class="logo-footer-img">
+        <p style="color: #CCCCCC; font-weight: 600; margin-top: 5px;">Cent Trader Indicator</p>
+        <p style="color: #999999; font-size: 0.85rem; margin-top: 5px;">Start Small. Trade Right.</p>
+        <p style="color: #666666; margin-top: 15px;">&copy; 2025 All Rights Reserved.</p>
+        <div class="disclaimer-text">
+            <strong>Penafian (Disclaimer) :</strong> Forex adalah pasaran berisiko tinggi. Jika anda tidak sanggup mengambil risiko, jangan teruskan. Semua keputusan dagangan dan sebarang kerugian adalah atas tanggungjawab sendiri. Semua produk di laman ini, termasuk tools, indicator dan copytrade, adalah untuk tujuan pendidikan dan analisis sahaja dan tidak menjamin sebarang keuntungan atau pulangan. Laman ini tidak mempromosikan mana-mana broker dan tidak menerima komisen atau kerjasama dengan broker yang tidak berdaftar di bawah Suruhanjaya Sekuriti Malaysia (SC). Sebutan nama broker atau platform hanyalah sebagai contoh teknikal, bukan promosi. Dengan menggunakan produk dan perkhidmatan di laman ini, anda mengesahkan bahawa anda faham risiko dan bersetuju untuk bertanggungjawab sepenuhnya.
+        </div>
+    </footer>
+
+    <!-- SOCIAL PROOF POPUP CONTAINER -->
+    <div id="socialProofContainer"></div>
+
+    <!-- LOADING OVERLAY -->
+    <div id="loadingOverlay">
+        <div class="loader-box">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Sila Tunggu</div>
+            <div class="loader-sub">Memproses permintaan anda...</div>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN MODAL -->
+    <div class="fullscreen-modal" id="fullscreenModal">
+        <div class="fullscreen-close" onclick="closeFullscreen()"><i class="fas fa-times"></i></div>
+        <div class="fullscreen-carousel">
+            <img id="fullscreenImage" src="" alt="Fullscreen Image">
+            <button class="fullscreen-nav prev" onclick="changeFullscreenSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+            <button class="fullscreen-nav next" onclick="changeFullscreenSlide(1)"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        
+        <div class="zoom-controls">
+            <button class="zoom-btn" onclick="zoomOut()"><i class="fas fa-minus"></i></button>
+            <button class="zoom-btn" onclick="resetZoom()"><i class="fas fa-undo"></i></button>
+            <button class="zoom-btn" onclick="zoomIn()"><i class="fas fa-plus"></i></button>
+        </div>
+
+        <div class="fullscreen-dots" id="fullscreenDots"></div>
+        <div class="fullscreen-counter"><span id="fsCurrentSlide">1</span> / <span id="fsTotalSlides">1</span></div>
+    </div>
+
+    <!-- MODALS -->
+    <div id="purchaseModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePurchaseModal()">&times;</span>
+            
+            <div id="purchaseStep1" class="step-container active">
+                <div class="modal-icon">
+                    <i class="fas fa-cog gear-icon gear-1"></i>
+                    <i class="fas fa-cog gear-icon gear-2"></i>
+                </div>
+                <h3>System Maintenance</h3>
+                <p style="color: #FFFFFF; font-size: 0.95rem;">
+                    Sistem pembayaran FPX sedang dinaik taraf. Bayaran automatik tidak tersedia buat sementara waktu. Sila lengkapkan borang manual di bawah. Official Admin akan memproses permohonan anda dan menghubungi anda dengan segera. Kami memohon maaf atas sebarang kesulitan.
+                </p>
+                <div class="maintenance-divider"></div>
+
+                <div class="manual-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name (Rumi Only)</label>
+                        <input type="text" id="inputName" class="form-input" placeholder="Contoh: Ahmad Bin Abu" oninput="validatePurchaseForm()">
+                        <div id="errorName" class="error-msg">* Hanya benarkan huruf Rumi.</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Mobile Number</label>
+                        <input type="tel" id="inputPhone" class="form-input" placeholder="Contoh: 0123456789" oninput="validatePurchaseForm()">
+                        <div id="errorPhone" class="error-msg">* Hanya benarkan nombor sahaja.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="inputEmail" class="form-input" placeholder="Contoh: email@example.com" oninput="validatePurchaseForm()">
+                        <div id="errorEmail" class="error-msg">* Format email tidak sah.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-chart-bar"></i> Trading Experience</label>
+                        <select id="inputExp" class="form-select" onchange="validatePurchaseForm()">
+                            <option value="" disabled selected>- Pilih Tahap Pengalaman -</option>
+                            <option value="Baru Mula (Newbie)">Baru Mula (Newbie)</option>
+                            <option value="1-2 Tahun">1-2 Tahun</option>
+                            <option value="3-5 Tahun">3-5 Tahun</option>
+                            <option value="Lebih 5 Tahun (Pro)">Lebih 5 Tahun (Pro)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-shopping-cart"></i> Interested In</label>
+                        <select id="inputInterest" class="form-select" onchange="validatePurchaseForm()">
+                            <option value="" disabled selected>- Pilih Pakej -</option>
+                            <option value="Cent Trader Indicator">Cent Trader Indicator</option>
+                            <option value="Copytrade Service">Copytrade Service</option>
+                        </select>
+                        <div id="packageHighlight" class="highlight-msg"></div>
+                    </div>
+
+                    <a href="#" id="btnSubmitMinzran" class="btn-submit" target="_blank" rel="noopener noreferrer" onclick="handlePurchaseSubmit()">
+                        <i class="fab fa-telegram"></i> Official Admin Cent Trader
+                    </a>
+                </div>
+            </div>
+
+            <div id="purchaseStep2" class="step-container">
+                <div class="modal-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>Verification in Progress</h3>
+                <p style="color: #FFFFFF;">System is verifying your request.</p>
+                <div class="maintenance-divider"></div>
+                <div class="countdown-text" id="purchaseCountdownDiv" style="display: block;">
+                    Validating request... <span id="purchaseCountdownTimer">10</span>s
+                </div>
+            </div>
+
+            <div id="purchaseStep3" class="step-container">
+                <div class="success-box">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="success-title">Request Berjaya Dihantar!</h3>
+                    <p class="success-text">
+                        Terima kasih kerana memilih Cent Trader Indicator. Permohonan anda telah direkodkan dan sedang diproses oleh Admin kami.
+                    </p>
+                    
+                    <div class="next-steps">
+                        <h4><i class="fas fa-list-ol"></i> Langkah Seterusna</h4>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Sila tunggu respon daripada Admin di Telegram.</li>
+                            <li><i class="fas fa-check"></i> Admin akan menghubungi anda untuk proses pengesahan dan pembayaran.</li>
+                            <li><i class="fas fa-check"></i> Pastikan akaun Telegram anda aktif dan boleh dihubungi.</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="btn-submit active" style="margin-top: 20px; cursor: pointer;" onclick="closePurchaseModal()">
+                        <i class="fas fa-times"></i> Tutup
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="trialModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeTrialModal()">&times;</span>
+            
+            <div id="trialStep1" class="step-container active">
+                <div class="modal-icon"><i class="fab fa-telegram"></i></div>
+                <h3>Step 1 : Channel Verification</h3>
+                <p style="color: #FFFFFF;">Join our official channel to verify your identity.</p>
+                <div class="maintenance-divider"></div>
+                <div class="step-box" style="text-align: center;">
+                    <p style="font-weight: 700; color: var(--white); margin-bottom: 10px;">Cent Trader Indicator Channel</p>
+                    <a href="https://t.me/centtraderindicator" target="_blank" class="btn-subscribe" onclick="startTrialChannelCountdown()">
+                        <i class="fab fa-telegram"></i> Join Channel
+                    </a>
+                </div>
+                <div id="trialChannelCountdown" style="display: none; margin-top: 20px;">
+                    <div class="countdown-text">Verifying subscription... <span id="trialChannelTimer">10</span>s</div>
+                </div>
+                <button id="btnTrialNext1" class="btn-submit" disabled style="margin-top: 20px;">
+                    Proceed to Step 2 <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div id="trialStep2" class="step-container">
+                <div class="modal-icon"><i class="fas fa-user-shield"></i></div>
+                <h3>Step 2 : Secure Registration</h3>
+                <p style="color: #FFFFFF;">Please provide your details to validate your request.</p>
+                <div class="maintenance-divider"></div>
+                <div class="manual-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name (Rumi Only)</label>
+                        <input type="text" id="trialName" class="form-input" placeholder="Nama Penuh" oninput="validateTrialForm()">
+                        <div id="trialErrorName" class="error-msg">* Hanya benarkan huruf Rumi.</div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Mobile Number</label>
+                        <input type="tel" id="trialPhone" class="form-input" placeholder="0123456789" oninput="validateTrialForm()">
+                        <div id="trialErrorPhone" class="error-msg">* Hanya benarkan nombor sahaja.</div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="trialEmail" class="form-input" placeholder="email@example.com" oninput="validateTrialForm()">
+                        <div id="trialErrorEmail" class="error-msg">* Format email tidak sah.</div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-chart-bar"></i> Trading Experience</label>
+                        <select id="trialExp" class="form-select" onchange="validateTrialForm()">
+                            <option value="" disabled selected>- Pilih Pengalaman -</option>
+                            <option value="Baru Mula (Newbie)">Baru Mula (Newbie)</option>
+                            <option value="1-2 Tahun">1-2 Tahun</option>
+                            <option value="3-5 Tahun">3-5 Tahun</option>
+                            <option value="Lebih 5 Tahun (Pro)">Lebih 5 Tahun (Pro)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-bullseye"></i> Primary Goal / Objective</label>
+                        <textarea id="trialReason" class="form-textarea" placeholder="Nyatakan secara ringkas kenapa anda ingin mencuba indicator ini." oninput="validateTrialForm()"></textarea>
+                    </div>
+                    <a href="#" id="btnTrialMinzran" class="btn-submit" target="_blank" onclick="processTrialSubmit()">
+                        <i class="fab fa-telegram"></i> Official Admin Cent Trader
+                    </a>
+                </div>
+            </div>
+
+            <div id="trialStep3" class="step-container">
+                <div class="modal-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>Verification in Progress</h3>
+                <p style="color: #FFFFFF;">System is verifying your request.</p>
+                <div class="maintenance-divider"></div>
+                <div class="countdown-text" id="trialCountdownDiv" style="display: block;">
+                    Validating request... <span id="countdownTimer">10</span>s
+                </div>
+            </div>
+
+            <div id="trialStep4" class="step-container">
+                <div class="success-box">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="success-title" style="color: #4CAF50;">PERMOHONAN BERJAYA!</h3>
+                    <p class="success-text">
+                        Tahniah! Access Free Trial 7 hari anda telah berjaya diaktifkan.
+                    </p>
+                    
+                    <div class="next-steps">
+                        <h4><i class="fas fa-info-circle"></i> Langkah Seterusnya :</h4>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Dapatkan access indicator melalui pautan yang disediakan di bawah.</li>
+                            <li><i class="fas fa-check"></i> Sila rujuk <strong>Full Video Tutorial</strong> untuk panduan lengkap penggunaan.</li>
+                            <li><i class="fas fa-check"></i> Sebarang masalah teknikal, sila hubungi Official Admin Cent Trader.</li>
+                        </ul>
+                    </div>
+                    
+                    <a href="https://www.tradingview.com/script/qvO1iHNS-Cent-Trader-Start-Small-Trade-Right-FREE-7-DAYS-ACCESS/" target="_blank" id="btnGetLink" class="btn-submit active" style="margin-top: 20px;">
+                        <i class="fas fa-link"></i> GET YOUR ACCESS LINK
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- IMAGE DATA ---
+        const dashboardImages = [
+            "https://res.cloudinary.com/dvsx7weto/image/upload/v1772694609/FULL_INTERFACE_xpjbri.png"
+        ];
+
+        const setupImages = [
+            "https://res.cloudinary.com/dvsx7weto/image/upload/v1772694556/1_n9jyv4.png",
+            "https://res.cloudinary.com/dvsx7weto/image/upload/v1772694563/2_sn9wod.png",
+            "https://res.cloudinary.com/dvsx7weto/image/upload/v1772694571/3_vet6ka.png",
+            "https://res.cloudinary.com/dvsx7weto/image/upload/v1772694579/4_cye1uk.png",
+            "https://res.cloudinary.com/dvsx7weto/image/upload/v1772694584/5_n4suxt.png",
+            "https://res.cloudinary.com/dvsx7weto/image/upload/v1772694588/6_xedazg.png",
+            "https://res.cloudinary.com/dvsx7weto/image/upload/v1772694592/7_h75fyj.png",
+            "https://res.cloudinary.com/dvsx7weto/image/upload/v1772694596/8_shhmlw.png",
+            "https://res.cloudinary.com/dvsx7weto/image/upload/v1772694600/9_by2hc7.png",
+            "https://res.cloudinary.com/dvsx7weto/image/upload/v1772694604/10_pc0f0r.png"
+        ];
+
+        let currentSlide = 0;
+        let currentViewerImages = [];
+        let fsCurrentIndex = 0;
+        let autoSlideInterval;
+        let fsAutoSlideInterval;
+        
+        let currentZoom = 1;
+        let panX = 0;
+        let panY = 0;
+        let isDragging = false;
+        let startX, startY;
+
+        function initCarousel() {
+            const track = document.getElementById('carouselTrack');
+            const dotsContainer = document.getElementById('carouselDots');
+            const totalSlides = setupImages.length;
+            
+            document.getElementById('totalSlides').textContent = totalSlides;
+            
+            for (let i = 0; i < totalSlides; i++) {
+                const slide = document.createElement('div');
+                slide.className = 'carousel-slide';
+                slide.dataset.index = i;
+                slide.innerHTML = `<img src="${setupImages[i]}" alt="Setup ${i+1}">`;
+                slide.onclick = () => openViewer(setupImages, i);
+                track.appendChild(slide);
+                
+                const dot = document.createElement('button');
+                dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+            
+            startAutoSlide();
+        }
+
+        function updateCarousel() {
+            const track = document.getElementById('carouselTrack');
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            
+            document.querySelectorAll('#carouselDots .carousel-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+            resetAutoSlide();
+        }
+
+        function changeSlide(direction) {
+            currentSlide = (currentSlide + direction + setupImages.length) % setupImages.length;
+            updateCarousel();
+            resetAutoSlide();
+        }
+
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                changeSlide(1);
+            }, 4000);
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            startAutoSlide();
+        }
+
+        function openViewer(images, index) {
+            currentViewerImages = images;
+            fsCurrentIndex = index;
+            currentZoom = 1;
+            panX = 0;
+            panY = 0;
+            
+            const modal = document.getElementById('fullscreenModal');
+            const navPrev = document.querySelector('.fullscreen-nav.prev');
+            const navNext = document.querySelector('.fullscreen-nav.next');
+            const dotsContainer = document.getElementById('fullscreenDots');
+            const counter = document.querySelector('.fullscreen-counter');
+            
+            if (images === dashboardImages) {
+                modal.style.backgroundColor = '#0f0f0f';
+            } else {
+                modal.style.backgroundColor = '#000000';
+            }
+            
+            if (images.length <= 1) {
+                navPrev.style.display = 'none';
+                navNext.style.display = 'none';
+                dotsContainer.style.display = 'none';
+                counter.style.display = 'none';
+            } else {
+                navPrev.style.display = 'flex';
+                navNext.style.display = 'flex';
+                dotsContainer.style.display = 'flex';
+                counter.style.display = 'block';
+                
+                dotsContainer.innerHTML = '';
+                images.forEach((src, i) => {
+                    const dot = document.createElement('button');
+                    dot.className = 'fullscreen-dot' + (i === index ? ' active' : '');
+                    dot.onclick = () => goToFSSlide(i);
+                    dotsContainer.appendChild(dot);
+                });
+                
+                startFSAutoSlide();
+            }
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            updateFullscreen();
+            initDrag();
+        }
+
+        function closeFullscreen() {
+            const modal = document.getElementById('fullscreenModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            clearInterval(fsAutoSlideInterval);
+            resetZoom();
+            removeDrag();
+        }
+
+        function updateFullscreen() {
+            const img = document.getElementById('fullscreenImage');
+            img.src = currentViewerImages[fsCurrentIndex];
+            img.style.transform = `scale(${currentZoom}) translate(${panX}px, ${panY}px)`;
+            
+            document.getElementById('fsCurrentSlide').textContent = fsCurrentIndex + 1;
+            document.getElementById('fsTotalSlides').textContent = currentViewerImages.length;
+            
+            document.querySelectorAll('.fullscreen-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === fsCurrentIndex);
+            });
+            
+            if (currentViewerImages === setupImages) {
+                currentSlide = fsCurrentIndex;
+                updateCarousel();
+            }
+        }
+
+        function goToFSSlide(index) {
+            fsCurrentIndex = index;
+            currentZoom = 1;
+            panX = 0; panY = 0;
+            updateFullscreen();
+            resetFSAutoSlide();
+        }
+
+        function changeFullscreenSlide(direction) {
+            fsCurrentIndex = (fsCurrentIndex + direction + currentViewerImages.length) % currentViewerImages.length;
+            currentZoom = 1;
+            panX = 0; panY = 0;
+            updateFullscreen();
+            resetFSAutoSlide();
+        }
+
+        function startFSAutoSlide() {
+            if (currentViewerImages.length <= 1) return;
+            fsAutoSlideInterval = setInterval(() => {
+                changeFullscreenSlide(1);
+            }, 5000);
+        }
+
+        function resetFSAutoSlide() {
+            clearInterval(fsAutoSlideInterval);
+            startFSAutoSlide();
+        }
+
+        function zoomIn() {
+            if (currentZoom < 4) {
+                currentZoom += 0.5;
+                updateFullscreen();
+            }
+        }
+
+        function zoomOut() {
+            if (currentZoom > 0.5) {
+                currentZoom -= 0.5;
+                updateFullscreen();
+            }
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            panX = 0;
+            panY = 0;
+            updateFullscreen();
+        }
+
+        document.getElementById('fullscreenImage').addEventListener('wheel', function(e) {
+            e.preventDefault();
+            if (e.deltaY < 0) {
+                zoomIn();
+            } else {
+                zoomOut();
+            }
+        });
+
+        function initDrag() {
+            const img = document.getElementById('fullscreenImage');
+            img.addEventListener('mousedown', startDrag);
+            img.addEventListener('touchstart', startDrag, {passive: false});
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, {passive: false});
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
+        }
+
+        function removeDrag() {
+            const img = document.getElementById('fullscreenImage');
+            img.removeEventListener('mousedown', startDrag);
+            img.removeEventListener('touchstart', startDrag);
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('mouseup', endDrag);
+            document.removeEventListener('touchend', endDrag);
+        }
+
+        function startDrag(e) {
+            if (currentZoom === 1) return;
+            
+            isDragging = true;
+            const img = document.getElementById('fullscreenImage');
+            img.classList.add('dragging');
+            
+            if (e.type === 'touchstart') {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            } else {
+                startX = e.clientX;
+                startY = e.clientY;
+            }
+            e.preventDefault();
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            
+            let clientX, clientY;
+            if (e.type === 'touchmove') {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            
+            const dx = clientX - startX;
+            const dy = clientY - startY;
+            
+            panX += dx;
+            panY += dy;
+            
+            startX = clientX;
+            startY = clientY;
+            
+            updateFullscreen();
+        }
+
+        function endDrag() {
+            isDragging = false;
+            const img = document.getElementById('fullscreenImage');
+            img.classList.remove('dragging');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('fullscreenModal');
+            if (modal.classList.contains('active')) {
+                if (e.key === 'ArrowLeft') changeFullscreenSlide(-1);
+                if (e.key === 'ArrowRight') changeFullscreenSlide(1);
+                if (e.key === 'Escape') closeFullscreen();
+                if (e.key === '+' || e.key === '=') zoomIn();
+                if (e.key === '-') zoomOut();
+            }
+        });
+
+        initCarousel();
+
+        const testimonials = [
+            { name: "Akmal, Terengganu", text: "Best untuk newbie macam saya. Tak perlu belajar chart complex.", stars: 5, image: "https://res.cloudinary.com/dvsx7weto/image/upload/v1772696395/t1_ye2ji0.png" },
+            { name: "Rina, Pahang", text: "Saya amik yang free 7 hari, lepas profit je saya terus beli. Kualiti indicator macam yang beribu-ribu. Terbaik!", stars: 5, image: "https://res.cloudinary.com/dvsx7weto/image/upload/v1772696395/t2_bgye4s.png" },
+            { name: "Afiq, Selangor", text: "Indicator ni memang senang faham. Signal jelas, tak peningkan kepala.", stars: 5, image: "https://res.cloudinary.com/dvsx7weto/image/upload/v1772696444/t3_ae0ux0.png" },
+            { name: "Raj, Penang", text: "Dah try pelbagai indicator, tapi yang ni paling membantu. Rasa lebih yakin.", stars: 5, image: "https://res.cloudinary.com/dvsx7weto/image/upload/v1772696445/t4_l8beyw.png" },
+            { name: "Farah, Melaka", text: "Indicator ni selalu bagi signal. Bila signal keluar, saya terus yakin untuk entry. Tak perlu risau follow je SOP.", stars: 5, image: "https://res.cloudinary.com/dvsx7weto/image/upload/v1772696487/t5_m5l9cz.png" },
+            { name: "Hafiz, Perak", text: "Modal kecil pun boleh start. Dalam seminggu dah nampak result yang membanggakan.", stars: 5, image: "https://res.cloudinary.com/dvsx7weto/image/upload/v1772696489/t6_arnbvt.png" },
+            { name: "Ana, Kuching", text: "Winrate meningkat sejak guna indicator ni. Recommended!", stars: 5, image: "https://res.cloudinary.com/dvsx7weto/image/upload/v1772696515/t7_vhpy3r.png" },
+            { name: "Danny, KK", text: "Tak perlu pening analysis. Ada signal entry je, yang penting follow je SOP.", stars: 5, image: "https://res.cloudinary.com/dvsx7weto/image/upload/v1772696518/t8_ykrxox.png" },
+            { name: "Siti, KL", text: "Dulu selalu loss, tapi sejak guna indicator ni, entry lebih yakin.", stars: 5, image: "https://res.cloudinary.com/dvsx7weto/image/upload/v1772696564/t9_cewvjt.png" },
+            { name: "Linda, JB", text: "Seorang housewife yang sibuk, indicator ni memang membantu. Tak perlu standby depan chart 24 jam.", stars: 5, image: "https://res.cloudinary.com/dvsx7weto/image/upload/v1772696567/t10_eo1bzx.png" },
+            { name: "Faiz, NS", text: "Support pantas. Ada masalah install, admin terus tolong settelkan.", stars: 5, image: "https://res.cloudinary.com/dvsx7weto/image/upload/v1772696569/t11_inkpiq.jpg" },
+            { name: "Azman, KL", text: "Suka gaya design dia. Simple dan profesional.", stars: 5, image: "https://res.cloudinary.com/dvsx7weto/image/upload/v1772696573/t12_qishqd.jpg" }
+        ];
+        let currentSetIndex = 0;
+        const grid = document.getElementById('testimonialGrid');
+        function renderTestimonials() {
+            grid.innerHTML = ''; 
+            for(let i = 0; i < 3; i++) {
+                let dataIndex = (currentSetIndex + i) % testimonials.length;
+                let t = testimonials[dataIndex];
+                let starsHtml = '';
+                for(let s=0; s<5; s++) { starsHtml += `<i class="fas fa-star"></i>`; }
+                const card = document.createElement('div');
+                card.className = 'testimonial-card';
+                card.innerHTML = `<div class="testimonial-header"><img src="${t.image}" alt="${t.name}" class="testimonial-avatar"><div class="author-info"><span class="author">${t.name}</span><div class="stars">${starsHtml}</div></div></div><p class="quote">"${t.text}"</p>`;
+                grid.appendChild(card);
+            }
+            currentSetIndex = (currentSetIndex + 3) % testimonials.length;
+        }
+        renderTestimonials();
+        setInterval(renderTestimonials, 6000);
+
+        const qnaItems = document.querySelectorAll('.qna-item');
+        qnaItems.forEach(item => {
+            const question = item.querySelector('.qna-question');
+            question.addEventListener('click', () => {
+                qnaItems.forEach(i => { if(i !== item) i.classList.remove('active'); });
+                item.classList.toggle('active');
+            });
+        });
+
+        function openPurchaseModal() {
+            document.getElementById('purchaseModal').style.display = 'flex';
+            document.getElementById('purchaseStep1').classList.add('active');
+            document.getElementById('purchaseStep2').classList.remove('active');
+            document.getElementById('purchaseStep3').classList.remove('active');
+            
+            document.getElementById('inputName').value = '';
+            document.getElementById('inputPhone').value = '';
+            document.getElementById('inputEmail').value = '';
+            document.getElementById('inputExp').selectedIndex = 0;
+            document.getElementById('inputInterest').selectedIndex = 0;
+            document.getElementById('errorName').style.display = 'none';
+            document.getElementById('errorPhone').style.display = 'none';
+            document.getElementById('errorEmail').style.display = 'none';
+            const highlight = document.getElementById('packageHighlight');
+            highlight.className = 'highlight-msg'; 
+            highlight.style.display = 'none';
+            validatePurchaseForm(); 
+        }
+        function closePurchaseModal() { document.getElementById('purchaseModal').style.display = 'none'; }
+        
+        function handlePurchaseSubmit() {
+            if (!document.getElementById('btnSubmitMinzran').classList.contains('active')) {
+                return;
+            }
+            
+            document.getElementById('purchaseStep1').classList.remove('active');
+            document.getElementById('purchaseStep2').classList.add('active');
+
+            let seconds = 10; 
+            const timerDisplay = document.getElementById('purchaseCountdownTimer');
+            const countdownDiv = document.getElementById('purchaseCountdownDiv');
+            countdownDiv.style.display = 'block';
+            
+            const interval = setInterval(() => {
+                seconds--;
+                timerDisplay.textContent = seconds;
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    countdownDiv.style.display = 'none';
+                    document.getElementById('purchaseStep2').classList.remove('active');
+                    document.getElementById('purchaseStep3').classList.add('active');
+                }
+            }, 1000);
+        }
+
+        function openTrialModal() {
+            document.getElementById('trialModal').style.display = 'flex';
+            document.getElementById('trialStep1').classList.add('active');
+            document.getElementById('trialStep2').classList.remove('active');
+            document.getElementById('trialStep3').classList.remove('active');
+            document.getElementById('trialStep4').classList.remove('active');
+            
+            document.getElementById('btnTrialNext1').disabled = true;
+            document.getElementById('btnTrialNext1').classList.remove('active');
+            document.getElementById('trialChannelCountdown').style.display = 'none';
+            
+            document.getElementById('trialName').value = '';
+            document.getElementById('trialPhone').value = '';
+            document.getElementById('trialEmail').value = '';
+            document.getElementById('trialExp').selectedIndex = 0;
+            document.getElementById('trialReason').value = '';
+            document.getElementById('trialErrorName').style.display = 'none';
+            document.getElementById('trialErrorPhone').style.display = 'none';
+            document.getElementById('trialErrorEmail').style.display = 'none';
+            document.getElementById('btnTrialMinzran').classList.remove('active');
+        }
+        function closeTrialModal() { document.getElementById('trialModal').style.display = 'none'; }
+        
+        function startTrialChannelCountdown() {
+            const countdownDiv = document.getElementById('trialChannelCountdown');
+            const timerDisplay = document.getElementById('trialChannelTimer');
+            countdownDiv.style.display = 'block';
+            let seconds = 10;
+            timerDisplay.textContent = seconds;
+
+            const interval = setInterval(() => {
+                seconds--;
+                timerDisplay.textContent = seconds;
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    countdownDiv.style.display = 'none';
+                    const btn = document.getElementById('btnTrialNext1');
+                    btn.disabled = false;
+                    btn.classList.add('active');
+                }
+            }, 1000);
+        }
+
+        function processTrialSubmit() {
+            if (!document.getElementById('btnTrialMinzran').classList.contains('active')) {
+                return;
+            }
+
+            showTrialStep(3);
+            
+            let seconds = 10;
+            const timerDisplay = document.getElementById('countdownTimer');
+            const interval = setInterval(() => {
+                seconds--;
+                timerDisplay.textContent = seconds;
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    document.getElementById('trialCountdownDiv').style.display = 'none';
+                    showTrialStep(4);
+                }
+            }, 1000);
+        }
+
+        function showTrialStep(step) {
+            document.getElementById('trialStep1').classList.remove('active');
+            document.getElementById('trialStep2').classList.remove('active');
+            document.getElementById('trialStep3').classList.remove('active');
+            document.getElementById('trialStep4').classList.remove('active');
+            document.getElementById('trialStep' + step).classList.add('active');
+            if (step === 3) {
+                document.getElementById('trialCountdownDiv').style.display = 'block';
+            }
+        }
+
+        document.getElementById('btnTrialNext1').addEventListener('click', function() { showTrialStep(2); });
+
+        function validatePurchaseForm() {
+            const nameInput = document.getElementById('inputName');
+            const phoneInput = document.getElementById('inputPhone');
+            const emailInput = document.getElementById('inputEmail');
+            const exp = document.getElementById('inputExp').value;
+            const interest = document.getElementById('inputInterest').value;
+            const nameValue = nameInput.value.trim();
+            const nameRegex = /^[a-zA-Z\s]+$/; 
+            const isNameValid = nameValue !== "" && nameRegex.test(nameValue);
+            nameInput.style.borderColor = (nameValue !== "" && !isNameValid) ? '#ff4d4d' : '#444';
+            document.getElementById('errorName').style.display = (nameValue !== "" && !isNameValid) ? 'block' : 'none';
+            const phoneValue = phoneInput.value.trim();
+            const phoneRegex = /^[0-9]+$/;
+            const isPhoneValid = phoneValue !== "" && phoneRegex.test(phoneValue);
+            phoneInput.style.borderColor = (phoneValue !== "" && !isPhoneValid) ? '#ff4d4d' : '#444';
+            document.getElementById('errorPhone').style.display = (phoneValue !== "" && !isPhoneValid) ? 'block' : 'none';
+            const emailValue = emailInput.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isEmailValid = emailValue !== "" && emailRegex.test(emailValue);
+            emailInput.style.borderColor = (emailValue !== "" && !isEmailValid) ? '#ff4d4d' : '#444';
+            document.getElementById('errorEmail').style.display = (emailValue !== "" && !isEmailValid) ? 'block' : 'none';
+            const highlight = document.getElementById('packageHighlight');
+            if (interest === "Cent Trader Indicator") {
+                highlight.className = 'highlight-msg bonus active';
+                highlight.style.display = 'block'; 
+                highlight.innerHTML = '<i class="fas fa-gift"></i> <strong>Bonus :</strong> Dapatkan PERCUMA Service Copytrade dengan pembelian indicator ini!';
+            } else if (interest === "Copytrade Service") {
+                highlight.className = 'highlight-msg info active';
+                highlight.style.display = 'block'; 
+                highlight.innerHTML = '<i class="fas fa-info-circle"></i> <strong>Makluman :</strong> Untuk mendapatkan Copytrade, anda perlu memiliki Indicator terlebih dahulu.';
+            } else {
+                highlight.className = 'highlight-msg';
+                highlight.style.display = 'none';
+            }
+            const btnMinzran = document.getElementById('btnSubmitMinzran');
+            if(isNameValid && isPhoneValid && isEmailValid && exp !== "" && interest !== "") {
+                btnMinzran.classList.add('active');
+                const message = `New Purchase Request:%0A%0AName: ${encodeURIComponent(nameValue)}%0APhone: ${encodeURIComponent(phoneValue)}%0AEmail: ${encodeURIComponent(emailValue)}%0AExperience: ${encodeURIComponent(exp)}%0AInterested: ${encodeURIComponent(interest)}`;
+                btnMinzran.href = `https://t.me/minzran?text=${message}`;
+            } else {
+                btnMinzran.classList.remove('active');
+                btnMinzran.href = "javascript:void(0)";
+            }
+        }
+
+        function validateTrialForm() {
+            const nameInput = document.getElementById('trialName');
+            const nameValue = nameInput.value.trim();
+            const nameRegex = /^[a-zA-Z\s]+$/;
+            const isNameValid = nameValue !== "" && nameRegex.test(nameValue);
+            nameInput.style.borderColor = (nameValue !== "" && !isNameValid) ? '#ff4d4d' : '#444';
+            document.getElementById('trialErrorName').style.display = (nameValue !== "" && !isNameValid) ? 'block' : 'none';
+            const phoneInput = document.getElementById('trialPhone');
+            const phoneValue = phoneInput.value.trim();
+            const phoneRegex = /^[0-9]+$/;
+            const isPhoneValid = phoneValue !== "" && phoneRegex.test(phoneValue);
+            phoneInput.style.borderColor = (phoneValue !== "" && !isPhoneValid) ? '#ff4d4d' : '#444';
+            document.getElementById('trialErrorPhone').style.display = (phoneValue !== "" && !isPhoneValid) ? 'block' : 'none';
+            const emailInput = document.getElementById('trialEmail');
+            const emailValue = emailInput.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isEmailValid = emailValue !== "" && emailRegex.test(emailValue);
+            emailInput.style.borderColor = (emailValue !== "" && !isEmailValid) ? '#ff4d4d' : '#444';
+            document.getElementById('trialErrorEmail').style.display = (emailValue !== "" && !isEmailValid) ? 'block' : 'none';
+            const exp = document.getElementById('trialExp').value;
+            const reason = document.getElementById('trialReason').value.trim();
+            const isValid = isNameValid && isPhoneValid && isEmailValid && exp !== "" && reason !== "";
+            const btnMinzran = document.getElementById('btnTrialMinzran');
+            if(isValid) {
+                btnMinzran.classList.add('active');
+                const message = `Request Free Trial:%0A%0AName: ${encodeURIComponent(nameValue)}%0APhone: ${encodeURIComponent(phoneValue)}%0AEmail: ${encodeURIComponent(emailValue)}%0AExperience: ${encodeURIComponent(exp)}%0AObjective: ${encodeURIComponent(reason)}`;
+                btnMinzran.href = `https://t.me/minzran?text=${message}`;
+            } else {
+                btnMinzran.classList.remove('active');
+                btnMinzran.href = "javascript:void(0)";
+            }
+        }
+        
+        function triggerLoading(type, target) {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.classList.add('active');
+
+            setTimeout(() => {
+                overlay.classList.remove('active');
+
+                if (type === 'modal') {
+                    if (target === 'purchaseModal') openPurchaseModal();
+                    if (target === 'trialModal') openTrialModal();
+                } else if (type === 'redirect') {
+                    window.open(target, '_blank');
+                }
+            }, 1500);
+        }
+        
+        function switchVideoTab(tabId) {
+            document.querySelectorAll('.video-tab').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.video-content').forEach(content => content.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabId + 'VideoContent').classList.add('active');
+        }
+
+        function unlockVideo() {
+            const input = document.getElementById('secretCodeInput').value;
+            const error = document.getElementById('codeError');
+            const lock = document.getElementById('videoLock');
+            const wrapper = document.querySelector('.blurred-video');
+            const video = document.getElementById('paidVideoPlayer');
+            const correctCode = "CTI@9Kx2!L7pQ#4Tm$8RzL%P2A"; 
+            if(input === correctCode) {
+                lock.style.display = 'none';
+                wrapper.classList.remove('blurred-video');
+                error.style.display = 'none';
+                if(video) video.play();
+            } else {
+                error.style.display = 'block';
+            }
+        }
+        
+        const proofNames = [
+            "Ami****", "Fari****", "Hafi****", "Dani****", "Jaso****", "Kuma****", "Rizi****", "Azi****", "Nadi****", "Sali****",
+            "Hazi****", "Kamal****", "Zaif****", "Buni****", "Luth****", "Sit****", "Rina****", "Lin****", "Lisa****", "Nur****",
+            "Yat****", "Tina****", "Ros****", "Mai****", "Poli****", "Ayu****", "Dina****", "Salm****", "Fat****", "Izz****",
+            "Fais****", "Syaf****", "Aris****", "Yusof****", "Muid****", "Naim****", "Wani****", "Akma****", "Sofi****", "Vino****"
+        ];
+
+        const proofStatuses = [
+            "Tiada Pengalaman Baru Mula (Newbie)", "Pengalaman 1-2 Tahun", "Pengalaman 3-5 Tahun", "Pengalaman Lebih 5 Tahun (Pro)"
+        ];
+
+        const proofActions = [
+            { text: "sedang meneliti Professional Dashboard.", icon: "fa-chart-line" },
+            { text: "sedang meneliti Clear Setup (Before & After).", icon: "fa-search" },
+            { text: "sedang belajar cara penggunaan indicator di Full Video Tutorial.", icon: "fa-play" },
+            { text: "baru sahaja memohon pembelian access Cent Trader Indicator.", icon: "fa-paper-plane" },
+            { text: "baru sahaja memohon Service Copytrade.", icon: "fa-robot" },
+            { text: "baru sahaja terima access indicator 7 HARI PERCUMA.", icon: "fa-users" }
+        ];
+
+        function initSocialProof() {
+            const randomStartDelay = Math.floor(Math.random() * 25000) + 5000;
+            setTimeout(showRandomProof, randomStartDelay);
+        }
+
+        function showRandomProof() {
+            const name = proofNames[Math.floor(Math.random() * proofNames.length)];
+            const status = proofStatuses[Math.floor(Math.random() * proofStatuses.length)];
+            const action = proofActions[Math.floor(Math.random() * proofActions.length)];
+            const initial = name.charAt(0).toUpperCase();
+            
+            const container = document.getElementById('socialProofContainer');
+            
+            const popup = document.createElement('div');
+            popup.className = 'social-proof-popup';
+            popup.innerHTML = `
+                <div class="spp-avatar">${initial}</div>
+                <div class="spp-content">
+                    <div class="spp-header"><i class="fas ${action.icon}"></i> <span>Realtime update</span></div>
+                    <div class="spp-main"><strong>${name}</strong> (${status}) ${action.text}</div>
+                </div>
+            `;
+            
+            container.appendChild(popup);
+
+            setTimeout(() => {
+                if (popup.parentNode) {
+                    popup.remove();
+                }
+            }, 5500);
+
+            const nextDelay = Math.floor(Math.random() * 50000) + 10000;
+            setTimeout(showRandomProof, nextDelay);
+        }
+
+        initSocialProof();
+
+        document.addEventListener('contextmenu', function(e) {
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+            }
+        }, false);
+    </script>
+</body>
+</html>
